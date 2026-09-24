@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Chat App</title>
+
+    <link rel="stylesheet"
+        href="chat.css">
+</head>
+
+<body>
+
+    <div class="chat-app">
+
+        <!-- LEFT SIDEBAR -->
+
+        <div class="sidebar">
+
+            <div class="sidebar-header">
+
+                <h2>💬 ChatApp</h2>
+
+                <button id="logoutBtn">
+                    Logout
+                </button>
+
+            </div>
+
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    placeholder="Search chats...">
+
+            </div>
+
+            <div class="chat-list">
+
+                <div class="chat-user active">
+
+                    <div class="avatar">
+                        G
+                    </div>
+
+                    <div class="chat-info">
+
+                        <h3>Gaurav</h3>
+
+                        <p>Hey! How are you?</p>
+
+                    </div>
+
+                    <span class="time">
+                        9:20 AM
+                    </span>
+
+                </div>
+
+                <div class="chat-user">
+
+                    <div class="avatar">
+                        S
+                    </div>
+
+                    <div class="chat-info">
+
+                        <h3>Sumit</h3>
+
+                        <p>See you tomorrow!</p>
+
+                    </div>
+
+                    <span class="time">
+                        8:45 AM
+                    </span>
+
+                </div>
+
+                <div class="chat-user">
+
+                    <div class="avatar">
+                        A
+                    </div>
+
+                    <div class="chat-info">
+
+                        <h3>Alok</h3>
+
+                        <p>Okay 👍</p>
+
+                    </div>
+
+                    <span class="time">
+                        Yesterday
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CHAT AREA -->
+
+        <div class="chat-area">
+
+            <!-- HEADER -->
+
+            <div class="chat-header">
+
+                <div class="avatar">
+                    G
+                </div>
+
+                <div>
+
+                    <h3>Gaurav</h3>
+
+                    <p>Online</p>
+
+                </div>
+
+            </div>
+
+
+            <!-- MESSAGES -->
+
+            <div
+                class="messages"
+                id="messages">
+
+                <div class="message received">
+
+                    <p>
+                        Hey! How are you?
+                    </p>
+
+                    <span>
+                        9:20 AM
+                    </span>
+
+                </div>
+
+                <div class="message sent">
+
+                    <p>
+                        I'm good! What about you?
+                    </p>
+
+                    <span>
+                        9:21 AM
+                    </span>
+
+                </div>
+
+                <div class="message received">
+
+                    <p>
+                        I'm doing great 😊
+                    </p>
+
+                    <span>
+                        9:22 AM
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- MESSAGE INPUT -->
+
+            <div class="message-input">
+
+                <input
+                    type="text"
+                    id="messageInput"
+                    placeholder="Type a message...">
+
+                <button
+                    id="sendBtn">
+                    ➤
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="chat.js"></script>
+
+</body>
+
+</html>

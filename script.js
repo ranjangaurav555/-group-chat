@@ -1,4 +1,11 @@
 
+const API_URL = "http://localhost:3000/api";
+
+
+// ===============================
+// ELEMENTS
+// ===============================
+
 const signupForm =
     document.getElementById("signupForm");
 
@@ -21,63 +28,96 @@ const message =
     document.getElementById("message");
 
 
-let isLogin = false;
+// ===============================
+// SHOW / HIDE PASSWORD
+// ===============================
+
+function togglePassword(inputId, button) {
+
+    const input =
+        document.getElementById(inputId);
 
 
-// SWITCH LOGIN / SIGNUP
+    if (input.type === "password") {
 
-switchButton.addEventListener("click", function () {
+        input.type = "text";
 
-    isLogin = !isLogin;
-
-    message.textContent = "";
-
-
-    if (isLogin) {
-
-        signupForm.classList.add("hidden");
-
-        loginForm.classList.remove("hidden");
-
-        formTitle.textContent =
-            "Welcome Back";
-
-        formSubtitle.textContent =
-            "Login to your account";
-
-        switchText.textContent =
-            "Don't have an account?";
-
-        switchButton.textContent =
-            "Sign Up";
+        button.textContent = "🙈";
 
     } else {
 
-        loginForm.classList.add("hidden");
+        input.type = "password";
 
-        signupForm.classList.remove("hidden");
+        button.textContent = "👁";
 
-        formTitle.textContent =
-            "Create Account";
-
-        formSubtitle.textContent =
-            "Sign up to create your account";
-
-        switchText.textContent =
-            "Already have an account?";
-
-        switchButton.textContent =
-            "Login";
     }
 
-});
+}
 
 
+// ===============================
+// SWITCH LOGIN / SIGNUP
+// ===============================
+
+switchButton.addEventListener(
+    "click",
+    function () {
+
+        message.textContent = "";
+
+        if (loginForm.classList.contains("hidden")) {
+
+            // SHOW LOGIN
+
+            signupForm.classList.add("hidden");
+
+            loginForm.classList.remove("hidden");
+
+            formTitle.textContent =
+                "Welcome Back";
+
+            formSubtitle.textContent =
+                "Login to your account";
+
+            switchText.textContent =
+                "Don't have an account?";
+
+            switchButton.textContent =
+                "Sign Up";
+
+        } else {
+
+            // SHOW SIGNUP
+
+            loginForm.classList.add("hidden");
+
+            signupForm.classList.remove("hidden");
+
+            formTitle.textContent =
+                "Create Account";
+
+            formSubtitle.textContent =
+                "Sign up to create your account";
+
+            switchText.textContent =
+                "Already have an account?";
+
+            switchButton.textContent =
+                "Login";
+
+        }
+
+    }
+);
+
+
+// ===============================
 // SIGNUP
+// ===============================
 
 signupForm.addEventListener(
     "submit",
-    function (event) {
+    async function (event) {
 
         event.preventDefault();
 
@@ -120,10 +160,11 @@ signupForm.addEventListener(
                 "Please enter a valid 10-digit phone number.";
 
             return;
+
         }
 
 
-        // PASSWORD LENGTH
+        // PASSWORD VALIDATION
 
         if (password.length < 6) {
 
@@ -131,6 +172,7 @@ signupForm.addEventListener(
                 "Password must contain at least 6 characters.";
 
             return;
+
         }
 
 
@@ -142,104 +184,170 @@ signupForm.addEventListener(
                 "Password and Confirm Password do not match.";
 
             return;
+
         }
 
 
-        // USER OBJECT
+        try {
 
-        const user = {
-
-            name: name,
-
-            email: email,
-
-            phone: phone,
-
-            password: password
-
-        };
+            message.textContent =
+                "Creating account...";
 
 
-        // SAVE USER
+            // SEND DATA TO BACKEND
 
-        localStorage.setItem(
-            "user",
-            JSON.stringify(user)
-        );
+            const response =
+                await fetch(
+                    `${API_URL}/signup`,
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            name: name,
+
+                            email: email,
+
+                            phone: phone,
+
+                            password: password
+
+                        })
+                    }
+                );
 
 
-        message.textContent =
-            "✓ Account created successfully!";
+            const data =
+                await response.json();
 
 
-        signupForm.reset();
+            if (!response.ok) {
+
+                message.textContent =
+                    data.message ||
+                    "Signup failed.";
+
+                return;
+
+            }
+
+
+            message.textContent =
+                "✓ Account created successfully!";
+
+
+            signupForm.reset();
+
+
+            // SWITCH TO LOGIN AFTER SIGNUP
+
+            setTimeout(function () {
+
+                signupForm.classList.add(
+                    "hidden"
+                );
+
+                loginForm.classList.remove(
+                    "hidden"
+                );
+
+                formTitle.textContent =
+                    "Welcome Back";
+
+                formSubtitle.textContent =
+                    "Login to your account";
+
+                switchText.textContent =
+                    "Don't have an account?";
+
+                switchButton.textContent =
+                    "Sign Up";
+
+            }, 1000);
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            message.textContent =
+                "Unable to connect to server.";
+
+        }
 
     }
 );
 
 
-// LOGIN
+// login 
 
-loginForm.addEventListener(
-    "submit",
-    function (event) {
+loginForm.addEventListener("submit", async function (event) {
 
-        event.preventDefault();
+    event.preventDefault();
 
+    const emailOrPhone =
+        document.getElementById("loginUser").value.trim();
 
-        const loginUser =
-            document.getElementById(
-                "loginUser"
-            ).value.trim();
+    const password =
+        document.getElementById("loginPassword").value;
 
+    try {
 
-        const loginPassword =
-            document.getElementById(
-                "loginPassword"
-            ).value;
+        message.textContent = "Logging in...";
 
+        const response = await fetch(
+            `${API_URL}/login`,
+            {
+                method: "POST",
 
-        const savedUser =
-            JSON.parse(
-                localStorage.getItem("user")
-            );
+                headers: {
+                    "Content-Type": "application/json"
+                },
 
+                body: JSON.stringify({
+                    emailOrPhone: emailOrPhone,
+                    password: password
+                })
+            }
+        );
 
-        if (!savedUser) {
+        const data = await response.json();
+
+        console.log("Login Response:", data);
+
+        if (!response.ok) {
 
             message.textContent =
-                "No account found. Please sign up first.";
+                data.message || "Login failed.";
 
             return;
         }
 
+        // Save JWT token
+        localStorage.setItem(
+            "token",
+            data.token
+        );
 
-        const userMatches =
-            loginUser === savedUser.email ||
-            loginUser === savedUser.phone;
+        // Save user information
+        localStorage.setItem(
+            "user",
+            JSON.stringify(data.user)
+        );
 
+        // Directly open Chat Window
+        window.location.href = "/chat.html";
 
-        const passwordMatches =
-            loginPassword === savedUser.password;
+    } catch (error) {
 
+        console.error("Login Error:", error);
 
-        if (
-            userMatches &&
-            passwordMatches
-        ) {
-
-            message.textContent =
-                `✓ Login successful. Welcome ${savedUser.name}!`;
-
-            loginForm.reset();
-
-        } else {
-
-            message.textContent =
-                "Invalid email/phone or password.";
-
-        }
-
+        message.textContent =
+            "Unable to connect to server.";
     }
-);
-
+});

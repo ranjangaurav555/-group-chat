@@ -28,8 +28,7 @@
                 Create Account
             </h1>
 
-            <p class="subtitle"
-                id="formSubtitle">
+            <p class="subtitle" id="formSubtitle">
                 Sign up to create your account
             </p>
 
@@ -78,28 +77,54 @@
                 </div>
 
 
+                <!-- PASSWORD -->
+
                 <div class="input-group">
 
                     <label>Password</label>
 
-                    <input
-                        type="password"
-                        id="signupPassword"
-                        placeholder="Enter password"
-                        required>
+                    <div class="password-box">
+
+                        <input
+                            type="password"
+                            id="signupPassword"
+                            placeholder="Enter password"
+                            required>
+
+                        <button
+                            type="button"
+                            class="eye-btn"
+                            onclick="togglePassword('signupPassword', this)">
+                            👁
+                        </button>
+
+                    </div>
 
                 </div>
 
+
+                <!-- CONFIRM PASSWORD -->
 
                 <div class="input-group">
 
                     <label>Confirm Password</label>
 
-                    <input
-                        type="password"
-                        id="confirmPassword"
-                        placeholder="Confirm your password"
-                        required>
+                    <div class="password-box">
+
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            placeholder="Confirm your password"
+                            required>
+
+                        <button
+                            type="button"
+                            class="eye-btn"
+                            onclick="togglePassword('confirmPassword', this)">
+                            👁
+                        </button>
+
+                    </div>
 
                 </div>
 
@@ -115,8 +140,7 @@
 
             <!-- LOGIN FORM -->
 
-            <form id="loginForm"
-                class="hidden">
+            <form id="loginForm" class="hidden">
 
                 <div class="input-group">
 
@@ -133,15 +157,28 @@
                 </div>
 
 
+                <!-- LOGIN PASSWORD -->
+
                 <div class="input-group">
 
                     <label>Password</label>
 
-                    <input
-                        type="password"
-                        id="loginPassword"
-                        placeholder="Enter password"
-                        required>
+                    <div class="password-box">
+
+                        <input
+                            type="password"
+                            id="loginPassword"
+                            placeholder="Enter password"
+                            required>
+
+                        <button
+                            type="button"
+                            class="eye-btn"
+                            onclick="togglePassword('loginPassword', this)">
+                            👁
+                        </button>
+
+                    </div>
 
                 </div>
 
@@ -182,4 +219,3 @@
 </body>
 
 </html>
-
